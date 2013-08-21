@@ -16,17 +16,15 @@
 
 package conf;
 
+import com.google.inject.Inject;
+import controllers.AuthenticationController;
 import ninja.AssetsController;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
 import ninja.utils.NinjaProperties;
 
-import com.google.inject.Inject;
-
-import controllers.ApplicationController;
-
 public class Routes implements ApplicationRoutes {
-    
+
     private NinjaProperties ninjaProperties;
 
     @Inject
@@ -37,20 +35,19 @@ public class Routes implements ApplicationRoutes {
 
     /**
      * Using a (almost) nice DSL we can configure the router.
-     * 
+     * <p/>
      * The second argument NinjaModuleDemoRouter contains all routes of a
      * submodule. By simply injecting it we activate the routes.
-     * 
-     * @param router
-     *            The default router of this application
+     *
+     * @param router The default router of this application
      */
     @Override
     public void init(Router router) {
 
         // default routes
-        router.GET().route("/").with(ApplicationController.class, "getIndex");
-        router.POST().route("/").with(ApplicationController.class, "postIndex");
-      
+        router.GET().route("/login").with(AuthenticationController.class, "getLogin");
+        router.POST().route("/login").with(AuthenticationController.class, "postLogin");
+
 
         router.GET().route("/assets/.*").with(AssetsController.class, "serve");
     }
